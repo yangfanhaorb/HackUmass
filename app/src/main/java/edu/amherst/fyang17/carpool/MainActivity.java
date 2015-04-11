@@ -4,7 +4,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -12,6 +16,19 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ArrayList<Item> tripList = new ArrayList<>();
+        tripList.add(new Item("Fanhao","New York-Boston"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+
+        // 1. pass context and data to the custom adapter
+        MyAdapter adapter = new MyAdapter(this,tripList );
+
+        // 2. Get ListView from activity_main.xml
+        ListView listView = (ListView) findViewById(R.id.listview);
+
+        // 3. setListAdapter
+        listView.setAdapter(adapter);
     }
 
 
@@ -20,6 +37,11 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+
+    public void display(View view){
+
     }
 
     @Override
