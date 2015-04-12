@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import android.widget.TextView;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
@@ -75,7 +76,8 @@ public class MainActivity extends ActionBarActivity {
         };
 
         listView.setOnItemClickListener(mMessageClickedHandler);
-
+        Log.w("called", "Shit");
+        callShit();
 
     }
 
@@ -145,6 +147,8 @@ public class MainActivity extends ActionBarActivity {
             HttpResponse response = client.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
+
+            //Implement this later into the ListPopulator
             if (statusCode == 200) {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
@@ -163,4 +167,16 @@ public class MainActivity extends ActionBarActivity {
         }
         return builder.toString();
     }
+
+    public void callShit() {
+        ListPopulator lp = new ListPopulator();
+        try {
+            lp.execute(new URL("http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/query1.php"));
+        }
+        catch(Exception e){
+            //handle errors
+            Log.w("error", "Web thing doesn't exist");
+        }
+    }
+
 }
