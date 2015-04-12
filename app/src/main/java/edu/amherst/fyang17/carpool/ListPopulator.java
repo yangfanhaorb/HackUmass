@@ -80,6 +80,8 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
     }
 
     public ArrayList<Listings> parseJSON(String result){
+        //Return this arraylist 
+        ArrayList<Listings> alListings = new ArrayList<Listings>();
         try {
             JSONObject jsonObject = new JSONObject(result);
             JSONObject subObject = null;
@@ -88,8 +90,6 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
                     fName, lName, origin, dest, time;
             Listings listing;
 
-            //Return this arraylist
-            ArrayList<Listings> alListings = new ArrayList<Listings>();
             Iterator<?> keys = jsonObject.keys();
             while(keys.hasNext()){
                 String key = (String) keys.next();
@@ -109,11 +109,11 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
                 }
             }
 
-            return alListings;
         }
         catch(Exception ex){
             Log.w("Parse errors ", ex.getMessage());
         }
+        return alListings;
     }
 
 }
