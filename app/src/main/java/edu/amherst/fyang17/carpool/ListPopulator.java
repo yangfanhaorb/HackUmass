@@ -26,6 +26,7 @@ import org.json.*;
  */
 public class ListPopulator extends AsyncTask<URL, Integer, String> {
     //All the overrides are the things that call the php stuff
+    public AsyncResponse delegate = null;
     Activity activity;
     ArrayList<Item> tripList;
     MyAdapter adapter;
@@ -39,6 +40,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
         this.tripList = tripList;
         this.adapter = adapter;
     }
+
 
 
     @Override
@@ -102,6 +104,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
 
         //modify the view
         modify(update);
+        delegate.processFinish(update);
     }
 
     public ArrayList<Listings> parseJSON(String result){
@@ -148,12 +151,25 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
     public void modify(ArrayList<Listings> update){
         for(int i=0; i<update.size(); i++){
             //Temporary thing to test
+            String temp2 = update.get(i).getTime().split(" ")[0];
+            String[] temp1 = temp2.split("-");
+            if (temp1[1].charAt(0)=='0'){
+                temp1[1] = temp1[1].substring(1);
+            }
+            if (temp1[2].charAt(0)=='0'){
+                temp1[2] = temp1[2].substring(1);
+            }
+            String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
             String tempString = update.get(i).getOrigin() + "-" + update.get(i).getDest();
-            Item temp = new Item(update.get(i).getFirstName(), tempString);
+            String personDate = update.get(i).getFirstName()+" "+update.get(i).getLastName()+" is travelling on "+dateComp;
+            Item temp = new Item(personDate, tempString);
             this.tripList.add(temp);
         }
 
         adapter.notifyDataSetChanged();
     }
+
+
+
 
 }
