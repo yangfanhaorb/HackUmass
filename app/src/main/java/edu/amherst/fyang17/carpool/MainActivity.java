@@ -234,6 +234,8 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
             String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
             toShow.add(new Item(filteredList.get(i).getFirstName() + " " + filteredList.get(i).getLastName() + " is travelling on " + dateComp, list.get(i).getOrigin() + "-" + list.get(i).getDest()));
         }
+
+        System.out.println(toShow.size());
         adapter = new MyAdapter(this,toShow);
         // 2. Get ListView from activity_main.xml
         ListView listView = (ListView) findViewById(R.id.listview);

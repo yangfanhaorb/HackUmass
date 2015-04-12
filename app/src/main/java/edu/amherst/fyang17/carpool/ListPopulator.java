@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.json.*;
@@ -149,6 +150,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
     //Provisional method to modify the lists
     //TODO: the update array doesn't guarantee new elements...revise implementation so that it does
     public void modify(ArrayList<Listings> update){
+        Collections.sort(update);
         for(int i=0; i<update.size(); i++){
             //Temporary thing to test
             String temp2 = update.get(i).getTime().split(" ")[0];

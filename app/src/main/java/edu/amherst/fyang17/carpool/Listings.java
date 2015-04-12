@@ -39,7 +39,7 @@ public class Listings implements Comparable{
         Date date2 = new Date();
         String temp2 =this.getTime().split(" ")[0];
         try {
-            date2 = sdf.parse(temp);
+            date2 = sdf.parse(temp2);
         }
         catch(Exception e){
             System.out.println("exception");
