@@ -10,9 +10,7 @@
         android:layout_height="40dp"
         android:hint="Origin"
         android:id="@+id/origin"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true" />
 
     <EditText
         android:layout_width="120dp"
@@ -21,7 +19,8 @@
         android:id="@+id/date"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/destination"
-        android:layout_toEndOf="@+id/destination" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="120dp"
@@ -45,12 +44,14 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button"
+        android:layout_marginTop="10dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

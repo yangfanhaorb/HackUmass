@@ -5,7 +5,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,6 +34,13 @@ public class MainActivity extends ActionBarActivity {
         ArrayList<Item> tripList = new ArrayList<>();
         tripList.add(new Item("Fanhao","New York-Boston"));
         tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
+        tripList.add(new Item("Thomas","Boston-New York"));
 
         // 1. pass context and data to the custom adapter
         MyAdapter adapter = new MyAdapter(this,tripList );
@@ -29,6 +50,16 @@ public class MainActivity extends ActionBarActivity {
 
         // 3. setListAdapter
         listView.setAdapter(adapter);
+
+        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                System.out.println(position);
+            }
+        };
+
+        listView.setOnItemClickListener(mMessageClickedHandler);
+
+
     }
 
 
