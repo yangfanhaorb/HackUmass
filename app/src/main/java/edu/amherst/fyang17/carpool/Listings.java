@@ -27,8 +27,8 @@ public class Listings implements Comparable{
     }
 
     public int compareTo(Object comparesto){
-        String temp =((Listings)comparesto).getTime().split(" ")[0];
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String temp =((Listings)comparesto).getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         try {
             date = sdf.parse(temp);
@@ -37,7 +37,7 @@ public class Listings implements Comparable{
             System.out.println("exception");
         }
         Date date2 = new Date();
-        String temp2 =this.getTime().split(" ")[0];
+        String temp2 =this.getTime();
         try {
             date2 = sdf.parse(temp2);
         }
