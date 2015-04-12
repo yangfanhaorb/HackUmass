@@ -4,5 +4,4 @@
     <string name="hello_world">Right now I\'m not sure what to display</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_trip_detail">TripDetail</string>
-    <string name="title_activity_add_new">AddNew</string>
 </resources>
