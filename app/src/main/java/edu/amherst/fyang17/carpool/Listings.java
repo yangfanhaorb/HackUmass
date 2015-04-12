@@ -1,15 +1,21 @@
 package edu.amherst.fyang17.carpool;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Daniel on 4/12/2015.
  */
-public class Listings {
+public class Listings implements Comparable{
 
     private String FirstName;
     private String LastName;
     private String Origin;
     private String Dest;
     private String Time;
+
 
     public Listings (String f, String l, String o, String d, String t){
         super();
@@ -18,6 +24,27 @@ public class Listings {
         Origin = o;
         Dest = d;
         Time = t;
+    }
+
+    public int compareTo(Object comparesto){
+        String temp =((Listings)comparesto).getTime().split(" ")[0];
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        try {
+            date = sdf.parse(temp);
+        }
+        catch(Exception e){
+            System.out.println("exception");
+        }
+        Date date2 = new Date();
+        String temp2 =this.getTime().split(" ")[0];
+        try {
+            date2 = sdf.parse(temp);
+        }
+        catch(Exception e){
+            System.out.println("exception");
+        }
+        return date2.compareTo(date);
     }
 
     public String getFirstName(){

@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends ActionBarActivity implements AsyncResponse{
 
@@ -119,7 +120,7 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
         // 1. pass context and data to the custom adapter
         ArrayList<Item> tripList = new ArrayList<>();
         MyAdapter adapter = new MyAdapter(this,tripList);
-        select(this,tripList,adapter,origin,destination,date);
+        select(this, tripList, adapter, origin, destination, date);
 
 
 
@@ -194,7 +195,8 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
             //handle errors
             Log.w("error", "Web thing doesn't exist");
         }
-        ArrayList<Item> filteredList = new ArrayList<>();
+        ArrayList<Listings> filteredList = new ArrayList<>();
+        ArrayList<Item> toShow = new ArrayList<>();
         for (int i=0;i<list.size();i++){
             boolean toAdd = true;
             if ((!origin.equals(""))&&(!list.get(i).getOrigin().equals(origin))){
@@ -216,10 +218,23 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
                 toAdd = false;
             }
             if (toAdd==true){
-                filteredList.add(new Item(list.get(i).getFirstName()+" "+list.get(i).getLastName()+" is travelling on "+dateComp,list.get(i).getOrigin()+"-"+list.get(i).getDest()));
+                filteredList.add(list.get(i));
             }
         }
-        adapter = new MyAdapter(this,filteredList);
+        Collections.sort(filteredList);
+        for (int i=0;i<filteredList.size();i++) {
+            String temp = filteredList.get(i).getTime().split(" ")[0];
+            String[] temp1 = temp.split("-");
+            if (temp1[1].charAt(0)=='0'){
+                temp1[1] = temp1[1].substring(1);
+            }
+            if (temp1[2].charAt(0)=='0'){
+                temp1[2] = temp1[2].substring(1);
+            }
+            String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
+            toShow.add(new Item(filteredList.get(i).getFirstName() + " " + filteredList.get(i).getLastName() + " is travelling on " + dateComp, list.get(i).getOrigin() + "-" + list.get(i).getDest()));
+        }
+        adapter = new MyAdapter(this,toShow);
         // 2. Get ListView from activity_main.xml
         ListView listView = (ListView) findViewById(R.id.listview);
         // 3. setListAdapter
