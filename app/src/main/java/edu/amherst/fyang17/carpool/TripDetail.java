@@ -15,11 +15,16 @@ public class TripDetail extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_detail);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-        setContentView(textView);
+        String[] message = intent.getStringArrayExtra(MainActivity.EXTRA_MESSAGE);
+        TextView name = (TextView) findViewById(R.id.name);
+        TextView trip = (TextView) findViewById(R.id.trip);
+        TextView time = (TextView) findViewById(R.id.date);
+        TextView seats = (TextView) findViewById(R.id.seats);
+        name.setText("Host of Trip is: "+message[0].split(" ")[0]+" "+message[0].split(" ")[0]);
+        trip.setText("Itinerary: "+message[1]);
+        String[] temp = message[0].split(" ");
+        time.setText("Date of Trip: "+temp[temp.length-1]);
+        seats.setText("Seats Available: "+message[2]+"/"+message[3]);
     }
 
 

@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Intent intent = new Intent(activity,TripDetail.class);
                 Item item = adapter.getItem(position);
-                String toDisplay = item.getName()+","+item.getTrip();
+                String[] toDisplay = {item.getName(),item.getTrip(),String.valueOf(item.getAvailable()),String.valueOf(item.getSeats())};
                 intent.putExtra(EXTRA_MESSAGE,toDisplay);
                 startActivity(intent);
             }
