@@ -1,6 +1,7 @@
 package edu.amherst.fyang17.carpool;
 
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,6 +26,21 @@ import org.json.*;
  */
 public class ListPopulator extends AsyncTask<URL, Integer, String> {
     //All the overrides are the things that call the php stuff
+    Activity activity;
+    ArrayList<Item> tripList;
+    MyAdapter adapter;
+    public ListPopulator(){
+        super();
+    }
+
+    ListPopulator(Activity activity, ArrayList<Item> tripList, MyAdapter adapter){
+        super();
+        this.activity = activity;
+        this.tripList = tripList;
+        this.adapter = adapter;
+    }
+
+
     @Override
     protected String doInBackground(URL...param) {
         BufferedReader br = null;
@@ -81,7 +97,11 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
 
     @Override
     protected void onPostExecute(String result){
-        parseJSON(result);
+        ArrayList<Listings> update = new ArrayList<Listings>();
+        update = parseJSON(result);
+
+        //modify the view
+        modify(update);
     }
 
     public ArrayList<Listings> parseJSON(String result){
@@ -121,6 +141,19 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
         }
 
         return alListings;
+    }
+
+    //Provisional method to modify the lists
+    //TODO: the update array doesn't guarantee new elements...revise implementation so that it does
+    public void modify(ArrayList<Listings> update){
+        for(int i=0; i<update.size(); i++){
+            //Temporary thing to test
+            String tempString = update.get(i).getOrigin() + "-" + update.get(i).getDest();
+            Item temp = new Item(update.get(i).getFirstName(), tempString);
+            this.tripList.add(temp);
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
 }

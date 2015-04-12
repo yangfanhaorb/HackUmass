@@ -43,18 +43,15 @@ public class MainActivity extends ActionBarActivity {
 
         final Activity activity = this;
         ArrayList<Item> tripList = new ArrayList<>();
-        tripList.add(new Item("Fanhao","New York-Boston"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        tripList.add(new Item("Thomas","Boston-New York"));
-        if (message!=null) {
-            tripList.add(new Item(message[2], message[0] + "-" + message[1]));
-        }
+//        tripList.add(new Item("Fanhao","New York-Boston"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
+//        tripList.add(new Item("Thomas","Boston-New York"));
 
         // 1. pass context and data to the custom adapter
         final MyAdapter adapter = new MyAdapter(this,tripList );
@@ -76,8 +73,7 @@ public class MainActivity extends ActionBarActivity {
         };
 
         listView.setOnItemClickListener(mMessageClickedHandler);
-        Log.w("called", "Shit");
-        callShit();
+        callShit(this, tripList, adapter);
 
     }
 
@@ -168,8 +164,8 @@ public class MainActivity extends ActionBarActivity {
         return builder.toString();
     }
 
-    public void callShit() {
-        ListPopulator lp = new ListPopulator();
+    public void callShit(Activity activity, ArrayList<Item> tripList, MyAdapter adapter) {
+        ListPopulator lp = new ListPopulator(activity, tripList, adapter);
         try {
             lp.execute(new URL("http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/query1.php"));
         }
