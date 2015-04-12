@@ -80,8 +80,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void display(View view){
-
+    public void addNewRide(MenuItem menuItem){
+        Intent intent = new Intent(this,AddNew.class);
+        startActivity(intent);
     }
 
     @Override
@@ -92,9 +93,7 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
