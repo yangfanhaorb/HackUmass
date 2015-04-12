@@ -1,5 +1,7 @@
 package edu.amherst.fyang17.carpool;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +29,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
+    public final static String EXTRA_MESSAGE = "edu.amherst.fyang17.fyang17.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Activity activity = this;
         ArrayList<Item> tripList = new ArrayList<>();
         tripList.add(new Item("Fanhao","New York-Boston"));
         tripList.add(new Item("Thomas","Boston-New York"));
@@ -44,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         tripList.add(new Item("Thomas","Boston-New York"));
 
         // 1. pass context and data to the custom adapter
-        MyAdapter adapter = new MyAdapter(this,tripList );
+        final MyAdapter adapter = new MyAdapter(this,tripList );
 
         // 2. Get ListView from activity_main.xml
         ListView listView = (ListView) findViewById(R.id.listview);
@@ -54,7 +58,11 @@ public class MainActivity extends ActionBarActivity {
 
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                System.out.println(position);
+                Intent intent = new Intent(activity,TripDetail.class);
+                Item item = adapter.getItem(position);
+                String toDisplay = item.getName()+","+item.getTrip();
+                intent.putExtra(EXTRA_MESSAGE,toDisplay);
+                startActivity(intent);
             }
         };
 
@@ -108,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
                     builder.append(line);
                 }
             } else {
-                Log.e(ParseJSON.class.toString(), "Failed to download file");
+                //Log.e(ParseJSON.class.toString(), "Failed to download file");
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
