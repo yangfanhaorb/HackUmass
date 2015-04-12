@@ -5,4 +5,13 @@
         android:title="Offer a Ride"
         android:onClick="addNewRide"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/notifications"
+        android:title="Notifications"
+        android:onClick="seeNotifications"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/history"
+        android:title="Ride History"
+        android:onClick="seeHistory"
+        app:showAsAction="ifRoom" />
+
 </menu>

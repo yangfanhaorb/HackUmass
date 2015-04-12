@@ -1,7 +1,9 @@
 package edu.amherst.fyang17.carpool;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,10 +33,12 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "edu.amherst.fyang17.fyang17.MESSAGE";
+    public static final String PREFS_NAME = "MyPrefsFile";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String[] message = getIntent().getStringArrayExtra(AddNew.EXTRA_MESSAGE);
 
         final Activity activity = this;
         ArrayList<Item> tripList = new ArrayList<>();
@@ -46,6 +51,9 @@ public class MainActivity extends ActionBarActivity {
         tripList.add(new Item("Thomas","Boston-New York"));
         tripList.add(new Item("Thomas","Boston-New York"));
         tripList.add(new Item("Thomas","Boston-New York"));
+        if (message!=null) {
+            tripList.add(new Item(message[2], message[0] + "-" + message[1]));
+        }
 
         // 1. pass context and data to the custom adapter
         final MyAdapter adapter = new MyAdapter(this,tripList );
@@ -79,9 +87,35 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+        String date = DatePickerFragment.date;
+        EditText editText = (EditText) findViewById(R.id.date);
+        editText.setText(date);
+    }
+
 
     public void addNewRide(MenuItem menuItem){
         Intent intent = new Intent(this,AddNew.class);
+        startActivity(intent);
+    }
+
+    public void seeNotifications(MenuItem menuItem){
+        Intent intent = new Intent(this,Notifications.class);
+        startActivity(intent);
+    }
+
+    public void update(View view){
+        EditText editText1 = (EditText) findViewById(R.id.origin);
+        String origin = editText1.getText().toString();
+        EditText editText2 = (EditText) findViewById(R.id.destination);
+        String destination = editText2.getText().toString();
+        EditText editText3 = (EditText) findViewById(R.id.date);
+        String date = editText3.getText().toString();
+        String[] message = {origin,destination,date};
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra(EXTRA_MESSAGE,message);
         startActivity(intent);
     }
 
@@ -96,6 +130,11 @@ public class MainActivity extends ActionBarActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void seeHistory(MenuItem menuItem){
+        Intent intent = new Intent(this,RideHistory.class);
+        startActivity(intent);
     }
 
     public String readFromServer() {

@@ -25,6 +25,16 @@
         <activity
             android:name=".AddNew"
             android:label="@string/title_activity_add_new"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".RideHistory"
+            android:label="@string/title_activity_ride_history"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".Notifications"
+            android:label="@string/title_activity_notifications"
             android:parentActivityName=".MainActivity">
         </activity>
     </application>

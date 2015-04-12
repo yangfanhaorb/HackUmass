@@ -1,17 +1,36 @@
 package edu.amherst.fyang17.carpool;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class AddNew extends ActionBarActivity {
 
+    public final static String EXTRA_MESSAGE = "edu.amherst.fyang17.fyang17.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new);
+    }
+
+    public void submit(View view){
+        EditText editText1 = (EditText) findViewById(R.id.editText5);
+        String origin = editText1.getText().toString();
+        EditText editText2 = (EditText) findViewById(R.id.editText6);
+        String destination = editText2.getText().toString();
+        EditText editText3 = (EditText) findViewById(R.id.editText4);
+        String description = editText3.getText().toString();
+        String[] message = {origin,destination,description};
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra(EXTRA_MESSAGE,message);
+        startActivity(intent);
+
     }
 
 
