@@ -1,5 +1,6 @@
 package edu.amherst.fyang17.carpool;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -28,11 +29,17 @@ public class AddNew extends ActionBarActivity {
         String description = editText3.getText().toString();
         String[] message = {origin,destination,description};
         Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra(EXTRA_MESSAGE,message);
+        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
 
     }
-
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+        String date = DatePickerFragment.date;
+        EditText editText = (EditText) findViewById(R.id.date);
+        editText.setText(date);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
