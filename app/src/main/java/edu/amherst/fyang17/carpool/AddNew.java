@@ -1,13 +1,23 @@
 package edu.amherst.fyang17.carpool;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.net.URI;
+import java.net.URL;
 
 
 public class AddNew extends ActionBarActivity {
@@ -27,6 +37,14 @@ public class AddNew extends ActionBarActivity {
         EditText editText3 = (EditText) findViewById(R.id.editText4);
         String description = editText3.getText().toString();
         String[] message = {origin,destination,description};
+
+        //dummy names for now, remember to change this after we do account related things
+        String fname = "Dave";
+        String lname = "Grohl";
+
+        String url = "http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/updatedb.php";
+        updateDatabase(url, fname, lname, origin, destination);
+
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra(EXTRA_MESSAGE,message);
         startActivity(intent);
@@ -51,5 +69,47 @@ public class AddNew extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateDatabase(String...params){
+        DB_Call dbc = new DB_Call();
+        dbc.execute(params[0], params[1], params[2], params[3], params[4]);
+    }
+
+}
+//i'd be super dope if we made it into some seperate class
+class DB_Call extends AsyncTask<String, Integer, String> {
+    @Override
+    protected String doInBackground(String...params) {
+        try {
+            String url = params[0];
+            String fname = params[1];
+            String lname = params[2];
+            String origin = params[3];
+            String dest = params[4];
+
+            //create request url and change to URL Itme
+            String reqURL = url + "?" + "fname=" + fname + "&lname=" + lname + "&origin=" + origin + "&dest=" + dest;
+
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI(reqURL));
+            HttpResponse response = client.execute(request);
+        }
+        catch(Exception e){
+            //handle exception
+        }
+        return "Successfully added item";
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer...progress){
+
+    }
+
+
+    @Override
+    protected void onPostExecute(String result){
+        Log.w("Done: ", "Done doing that thing for tha thting s");
     }
 }
