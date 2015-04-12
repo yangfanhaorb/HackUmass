@@ -42,6 +42,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, Long> {
             Log.w("string: ", sb.toString());
         } catch (Exception e) {
             //handle errors
+            Log.w("Failed ", " to get information from designated server thing");
         } finally {
             try {
                 if (br != null) {
