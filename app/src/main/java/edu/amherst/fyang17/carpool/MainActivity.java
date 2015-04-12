@@ -232,7 +232,7 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
                 temp1[2] = temp1[2].substring(1);
             }
             String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
-            toShow.add(new Item(filteredList.get(i).getFirstName() + " " + filteredList.get(i).getLastName() + " is travelling on " + dateComp, list.get(i).getOrigin() + "-" + list.get(i).getDest()));
+            toShow.add(new Item(filteredList.get(i).getFirstName() + " " + filteredList.get(i).getLastName() + " is travelling on " + dateComp, filteredList.get(i).getOrigin() + "-" + filteredList.get(i).getDest()));
         }
 
         System.out.println(toShow.size());
