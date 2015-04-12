@@ -113,7 +113,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
             JSONObject subObject = null;
             //interior is above converted to string
             String interior,
-                    fName, lName, origin, dest, time;
+                    fName, lName, origin, dest, time, seats;
             Listings listing;
 
             Iterator<?> keys = jsonObject.keys();
@@ -128,8 +128,10 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
                     origin = subObject.get("Origin").toString();
                     dest = subObject.get("Dest").toString();
                     time = subObject.get("Time").toString();
+                    seats = subObject.get("Seats").toString();
 
-                    listing = new Listings(fName, lName, origin, dest, time);
+
+                    listing = new Listings(fName, lName, origin, dest, time, seats);
 
                     alListings.add(listing);
                 }
@@ -149,7 +151,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
         for(int i=0; i<update.size(); i++){
             //Temporary thing to test
             String tempString = update.get(i).getOrigin() + "-" + update.get(i).getDest();
-            Item temp = new Item(update.get(i).getFirstName(), tempString);
+            Item temp = new Item(update.get(i).getFirstName(), tempString, update.get(i).getTime(), update.get(i).getSeats());
             this.tripList.add(temp);
         }
 
