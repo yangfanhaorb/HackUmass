@@ -34,6 +34,8 @@ import java.util.Collections;
 
 public class MainActivity extends ActionBarActivity implements AsyncResponse{
 
+    MyAdapter storage = null;
+
     public final static String EXTRA_MESSAGE = "edu.amherst.fyang17.fyang17.MESSAGE";
     public static final String PREFS_NAME = "MyPrefsFile";
     public static ArrayList<Listings> list = new ArrayList<>();
@@ -55,6 +57,7 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
 
         // 1. pass context and data to the custom adapter
         final MyAdapter adapter = new MyAdapter(this,tripList );
+        storage = adapter;
         callShit(this, tripList, adapter);
         // 2. Get ListView from activity_main.xml
         ListView listView = (ListView) findViewById(R.id.listview);
@@ -65,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Intent intent = new Intent(activity,TripDetail.class);
-                Item item = adapter.getItem(position);
+                Item item = storage.getItem(position);
                 String[] toDisplay = {item.getName(),item.getTrip(),String.valueOf(item.getAvailable()),String.valueOf(item.getSeats())};
                 intent.putExtra(EXTRA_MESSAGE,toDisplay);
                 startActivity(intent);
@@ -205,16 +208,7 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
             if ((!destination.equals(""))&&(!list.get(i).getDest().equals(destination))){
                 toAdd = false;
             }
-            String temp = list.get(i).getTime().split(" ")[0];
-            String[] temp1 = temp.split("-");
-            if (temp1[1].charAt(0)=='0'){
-                temp1[1] = temp1[1].substring(1);
-            }
-            if (temp1[2].charAt(0)=='0'){
-                temp1[2] = temp1[2].substring(1);
-            }
-            String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
-            if ((!date.equals(""))&&(!date.equals(dateComp))){
+            if ((!date.equals(""))&&(!date.equals(list.get(i).getTime()))){
                 toAdd = false;
             }
             if (toAdd==true){
@@ -223,20 +217,11 @@ public class MainActivity extends ActionBarActivity implements AsyncResponse{
         }
         Collections.sort(filteredList);
         for (int i=0;i<filteredList.size();i++) {
-            String temp = filteredList.get(i).getTime().split(" ")[0];
-            String[] temp1 = temp.split("-");
-            if (temp1[1].charAt(0)=='0'){
-                temp1[1] = temp1[1].substring(1);
-            }
-            if (temp1[2].charAt(0)=='0'){
-                temp1[2] = temp1[2].substring(1);
-            }
-            String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
-            toShow.add(new Item(filteredList.get(i).getFirstName() + " " + filteredList.get(i).getLastName() + " is travelling on " + dateComp, filteredList.get(i).getOrigin() + "-" + filteredList.get(i).getDest()));
+            toShow.add(new Item(filteredList.get(i).getFirstName() + " " + filteredList.get(i).getLastName() + " is travelling on " + filteredList.get(i).getTime(), filteredList.get(i).getOrigin() + "-" + filteredList.get(i).getDest()));
         }
 
-        System.out.println(toShow.size());
         adapter = new MyAdapter(this,toShow);
+        storage = adapter;
         // 2. Get ListView from activity_main.xml
         ListView listView = (ListView) findViewById(R.id.listview);
         // 3. setListAdapter

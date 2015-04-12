@@ -36,18 +36,21 @@ public class AddNew extends ActionBarActivity {
         String destination = editText2.getText().toString();
         EditText editText3 = (EditText) findViewById(R.id.editText4);
         String description = editText3.getText().toString();
+        EditText editText4 = (EditText) findViewById(R.id.editText2);
+        String date = editText4.getText().toString();
         String[] message = {origin,destination,description};
 
         //dummy names for now, remember to change this after we do account related things
         String fname = "Dave";
         String lname = "Grohl";
+        if (!origin.equals("")&&!destination.equals("")&&!date.equals("")) {
+            String url = "http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/updatedb.php";
+            updateDatabase(url, fname, lname, origin, destination, date);
 
-        String url = "http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/updatedb.php";
-        updateDatabase(url, fname, lname, origin, destination);
-
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra(EXTRA_MESSAGE,message);
-        startActivity(intent);
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            startActivity(intent);
+        }
 
     }
 
@@ -73,7 +76,7 @@ public class AddNew extends ActionBarActivity {
 
     public void updateDatabase(String...params){
         DB_Call dbc = new DB_Call();
-        dbc.execute(params[0], params[1], params[2], params[3], params[4]);
+        dbc.execute(params[0], params[1], params[2], params[3], params[4], params[5]);
     }
 
 }
@@ -87,10 +90,11 @@ class DB_Call extends AsyncTask<String, Integer, String> {
             String lname = params[2];
             String origin = params[3];
             String dest = params[4];
-
+            String date = params[5];
             //create request url and change to URL Itme
-            String reqURL = url + "?" + "fname=" + fname + "&lname=" + lname + "&origin=" + origin + "&dest=" + dest;
+            String reqURL = url + "?" + "fname=" + fname + "&lname=" + lname + "&origin=" + origin + "&dest=" + dest + "&date=" + date;
 
+            Log.w("reqURL " , reqURL);
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet();
             request.setURI(new URI(reqURL));

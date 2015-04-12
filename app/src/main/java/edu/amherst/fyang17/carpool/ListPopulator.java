@@ -153,17 +153,9 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
         Collections.sort(update);
         for(int i=0; i<update.size(); i++){
             //Temporary thing to test
-            String temp2 = update.get(i).getTime().split(" ")[0];
-            String[] temp1 = temp2.split("-");
-            if (temp1[1].charAt(0)=='0'){
-                temp1[1] = temp1[1].substring(1);
-            }
-            if (temp1[2].charAt(0)=='0'){
-                temp1[2] = temp1[2].substring(1);
-            }
-            String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
+
             String tempString = update.get(i).getOrigin() + "-" + update.get(i).getDest();
-            String personDate = update.get(i).getFirstName()+" "+update.get(i).getLastName()+" is travelling on "+dateComp;
+            String personDate = update.get(i).getFirstName()+" "+update.get(i).getLastName()+" is travelling on "+update.get(i).getTime();
             Item temp = new Item(personDate, tempString);
             this.tripList.add(temp);
         }
