@@ -23,6 +23,7 @@ public class MyAdapter extends ArrayAdapter<Item> {
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
+        this.itemsArrayList.add(0,new Item("Alex", "Amherst-Bradley", "6/15/2015", 2));
     }
 
     @Override

@@ -16,10 +16,19 @@ public class TripDetail extends ActionBarActivity {
         setContentView(R.layout.activity_trip_detail);
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-        setContentView(textView);
+        String[] split = message.split(",");
+        String name = "Host of the event is: "+split[0];
+        String trip = "Route: "+split[1];
+        String date = "Leaves on: "+split[2];
+        String seats = "Number of seats available: "+split[3]+"/"+split[4];
+        TextView textView1 = (TextView) findViewById(R.id.name);
+        TextView textView2 = (TextView) findViewById(R.id.trip);
+        TextView textView3 = (TextView) findViewById(R.id.date);
+        TextView textView4 = (TextView) findViewById(R.id.seats);
+        textView1.setText(name);
+        textView2.setText(trip);
+        textView3.setText(date);
+        textView4.setText(seats);
     }
 
 

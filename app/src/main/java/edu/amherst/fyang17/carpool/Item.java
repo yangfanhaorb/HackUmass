@@ -7,15 +7,15 @@ public class Item {
 
     public String name;
     public String trip;
-    public String start_time;
+    public String date;
     public int seats;
     public int available;
 
-    public Item(String name, String trip, String start_time, int seats) {
+    public Item(String name, String trip, String date, int seats) {
         super();
         this.name = name;
         this.trip = trip;
-        this.start_time = start_time;
+        this.date = date;
         this.seats = seats;
         this.available = seats;
     }
@@ -28,7 +28,7 @@ public class Item {
         return this.trip;
     }
 
-    public String getTime() { return this.start_time; }
+    public String getDate() { return this.date; }
 
     public int getSeats() { return this.seats; }
 
