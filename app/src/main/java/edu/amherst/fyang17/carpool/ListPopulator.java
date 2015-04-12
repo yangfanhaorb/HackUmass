@@ -113,6 +113,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
         catch(Exception ex){
             Log.w("Parse errors ", ex.getMessage());
         }
+
         return alListings;
     }
 

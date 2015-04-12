@@ -51,4 +51,10 @@ public class Listings {
         return all;
     }
 
+    @Override
+    public String toString(){
+        String fuck = this.FirstName + this.LastName + this.Dest + this.Origin + this.Time;
+        return fuck;
+    }
+
 }
