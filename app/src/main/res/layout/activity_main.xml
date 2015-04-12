@@ -3,9 +3,12 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@color/smog">
+
 
     <TextView
+        android:textColor="@color/decay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search departures for your origin, destination and date"
@@ -13,6 +16,8 @@
         android:id="@+id/textView" />
 
     <EditText
+        android:textColorHint="@color/ebonics_444"
+        android:textColor="@color/decay"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:hint="Origin"
@@ -23,6 +28,8 @@
         android:layout_marginTop="38dp" />
 
     <EditText
+        android:textColorHint="@color/ebonics_444"
+        android:textColor="@color/decay"
         android:onClick="showDatePickerDialog"
         android:layout_width="120dp"
         android:layout_height="40dp"
@@ -34,6 +41,8 @@
         android:layout_toEndOf="@+id/destination" />
 
     <EditText
+        android:textColorHint="@color/ebonics_444"
+        android:textColor="@color/decay"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:hint="Destination"

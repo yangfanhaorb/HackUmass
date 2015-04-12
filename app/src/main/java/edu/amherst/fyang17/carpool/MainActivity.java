@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 Intent intent = new Intent(activity,TripDetail.class);
                 Item item = adapter.getItem(position);
-                String toDisplay = item.getName()+","+item.getTrip();
+                String toDisplay = item.getName()+","+item.getTrip()+","+item.getTime()+","+String.valueOf(item.getSeats())+","+String.valueOf(item.getAvailable());
                 intent.putExtra(EXTRA_MESSAGE,toDisplay);
                 startActivity(intent);
             }
