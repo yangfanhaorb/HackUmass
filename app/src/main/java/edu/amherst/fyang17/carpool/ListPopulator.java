@@ -30,6 +30,8 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
         BufferedReader br = null;
         InputStream is = null;
         StringBuffer sb = null;
+
+        String result ="";
         try {
             URL u = param[0];
             HttpClient client = new DefaultHttpClient();
@@ -41,14 +43,17 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
             sb = new StringBuffer("");
 
             String line;
+
             while ((line = br.readLine()) != null) {
                 sb.append(line);
                 break;
             }
-
+            if(sb != null) {
+                result = sb.toString();
+            }
         } catch (Exception e) {
             //handle errors
-            Log.w("Failed ", " to get information from designated server thing");
+            Log.w("Failed ", e.getMessage());
         } finally {
             try {
                 if (br != null) {
@@ -63,8 +68,8 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
             }
 
         }
-
-        return sb.toString();
+        Log.w("Near end execution ", result);
+        return result;
     }
 
 
@@ -82,6 +87,7 @@ public class ListPopulator extends AsyncTask<URL, Integer, String> {
     public ArrayList<Listings> parseJSON(String result){
         //Return this arraylist 
         ArrayList<Listings> alListings = new ArrayList<Listings>();
+        Log.w("Test: ", result);
         try {
             JSONObject jsonObject = new JSONObject(result);
             JSONObject subObject = null;
