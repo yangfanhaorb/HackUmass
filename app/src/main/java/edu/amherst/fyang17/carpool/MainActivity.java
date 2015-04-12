@@ -31,16 +31,15 @@ import android.widget.TextView;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements AsyncResponse{
 
     public final static String EXTRA_MESSAGE = "edu.amherst.fyang17.fyang17.MESSAGE";
     public static final String PREFS_NAME = "MyPrefsFile";
+    public static ArrayList<Listings> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String[] message = getIntent().getStringArrayExtra(AddNew.EXTRA_MESSAGE);
-
         final Activity activity = this;
         ArrayList<Item> tripList = new ArrayList<>();
 //        tripList.add(new Item("Fanhao","New York-Boston"));
@@ -55,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
 
         // 1. pass context and data to the custom adapter
         final MyAdapter adapter = new MyAdapter(this,tripList );
-
+        callShit(this, tripList, adapter);
         // 2. Get ListView from activity_main.xml
         ListView listView = (ListView) findViewById(R.id.listview);
 
@@ -73,10 +72,15 @@ public class MainActivity extends ActionBarActivity {
         };
 
         listView.setOnItemClickListener(mMessageClickedHandler);
-        callShit(this, tripList, adapter);
+
 
     }
 
+
+    public void processFinish(ArrayList<Listings> output){
+        //this you will received result fired from async class of onPostExecute(result) method.
+        list = output;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,10 +115,14 @@ public class MainActivity extends ActionBarActivity {
         String destination = editText2.getText().toString();
         EditText editText3 = (EditText) findViewById(R.id.date);
         String date = editText3.getText().toString();
-        String[] message = {origin,destination,date};
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra(EXTRA_MESSAGE,message);
-        startActivity(intent);
+
+        // 1. pass context and data to the custom adapter
+        ArrayList<Item> tripList = new ArrayList<>();
+        MyAdapter adapter = new MyAdapter(this,tripList);
+        select(this,tripList,adapter,origin,destination,date);
+
+
+
     }
 
     @Override
@@ -166,6 +174,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void callShit(Activity activity, ArrayList<Item> tripList, MyAdapter adapter) {
         ListPopulator lp = new ListPopulator(activity, tripList, adapter);
+        lp.delegate = this;
         try {
             lp.execute(new URL("http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/query1.php"));
         }
@@ -173,6 +182,48 @@ public class MainActivity extends ActionBarActivity {
             //handle errors
             Log.w("error", "Web thing doesn't exist");
         }
+    }
+
+    public void select(Activity activity,ArrayList<Item> tripList, MyAdapter adapter,String origin,String destination,String date){
+        ListPopulator lp = new ListPopulator(activity, tripList, adapter);
+        lp.delegate = this;
+        try {
+            lp.execute(new URL("http://ec2-54-148-117-26.us-west-2.compute.amazonaws.com/query1.php"));
+        }
+        catch(Exception e){
+            //handle errors
+            Log.w("error", "Web thing doesn't exist");
+        }
+        ArrayList<Item> filteredList = new ArrayList<>();
+        for (int i=0;i<list.size();i++){
+            boolean toAdd = true;
+            if ((!origin.equals(""))&&(!list.get(i).getOrigin().equals(origin))){
+                toAdd = false;
+            }
+            if ((!destination.equals(""))&&(!list.get(i).getDest().equals(destination))){
+                toAdd = false;
+            }
+            String temp = list.get(i).getTime().split(" ")[0];
+            String[] temp1 = temp.split("-");
+            if (temp1[1].charAt(0)=='0'){
+                temp1[1] = temp1[1].substring(1);
+            }
+            if (temp1[2].charAt(0)=='0'){
+                temp1[2] = temp1[2].substring(1);
+            }
+            String dateComp = temp1[1]+"/"+temp1[2]+"/"+temp1[0];
+            if ((!date.equals(""))&&(!date.equals(dateComp))){
+                toAdd = false;
+            }
+            if (toAdd==true){
+                filteredList.add(new Item(list.get(i).getFirstName()+" "+list.get(i).getLastName()+" is travelling on "+dateComp,list.get(i).getOrigin()+"-"+list.get(i).getDest()));
+            }
+        }
+        adapter = new MyAdapter(this,filteredList);
+        // 2. Get ListView from activity_main.xml
+        ListView listView = (ListView) findViewById(R.id.listview);
+        // 3. setListAdapter
+        listView.setAdapter(adapter);
     }
 
 }
